@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier:check": "prettier --check '**/*.{js,jsx,ts,tsx,css,md}'",
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,vue,css,md}' --ignore-path .prettierignore",
+    "format:check": "prettier --check '**/*.{js,jsx,ts,tsx,vue,css,md}' '!public/**/*'"
   },
   "dependencies": {
     "next": "14.1.0",
