@@ -17,8 +17,10 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
+          with:
+            version: 8.15.3
 
-      # Now you can use pnpm for subsequent commands
+      # Subsequent commands
       - name: Install dependencies
         run: |
           pnpm config set store-dir .pnpm-store
