@@ -17,8 +17,8 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-          with:
-            version: 8.15.3
+        with:
+          version: 8.15.3
 
       # Subsequent commands
       - name: Install dependencies
