@@ -2,35 +2,36 @@ name: CI
 
 on:
   push:
-    branches: [ "main", "dev" ] # Added "dev" to match the "only" conditions in the pipeline
+    branches: ["main", "dev"]
   pull_request:
-    branches: [ "main", "dev" ] # Added "dev" to match the "only" conditions in the pipeline
+    branches: ["main", "dev"]
   workflow_dispatch:
 
 jobs:
-  lint: # Renamed job from "build" to "lint" to reflect its purpose
+  lint:
     runs-on: ubuntu-latest
-    container: node:20.11.0 # Use a specific Node.js version container
+    container: node:20.11.0
 
     steps:
       - uses: actions/checkout@v3
 
-      # Setup Node.js and pnpm
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20.11.0'
-          cache: 'pnpm' # Enables caching for pnpm
-          cache-dependency-path: '**/pnpm-lock.yaml'
+          node-version: "20.11.0"
+          cache: "pnpm"
+          cache-dependency-path: "**/pnpm-lock.yaml"
 
-      # Install dependencies using pnpm
+      # Explicitly install pnpm
+      - name: Install pnpm
+        run: |
+          npm install -g pnpm
+
+      # Now you can use pnpm for subsequent commands
       - name: Install dependencies
         run: |
-          corepack enable
-          corepack prepare pnpm@latest-8 --activate
           pnpm config set store-dir .pnpm-store
           pnpm install
 
-      # Check code formatting with Prettier
       - name: Check code formatting
         run: pnpm prettier:check
