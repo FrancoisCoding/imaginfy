@@ -1,10 +1,10 @@
-name: CI
+name: Next.js CI/CD with Lint, Build, and Docs
 
 on:
   push:
-    branches: ["main", "dev"]
+    branches: ['main', 'dev']
   pull_request:
-    branches: ["main", "dev"]
+    branches: ['main', 'dev']
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,6 @@ jobs:
         with:
           version: 8.15.3
 
-      # Subsequent commands
       - name: Install dependencies
         run: |
           pnpm config set store-dir .pnpm-store
@@ -28,3 +27,45 @@ jobs:
 
       - name: Check code formatting
         run: pnpm prettier:check
+
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    container: node:20.11.0
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.3
+
+      - name: Install dependencies
+        run: |
+          pnpm config set store-dir .pnpm-store
+          pnpm install
+
+      - name: Build project
+        run: pnpm build
+
+  documentation:
+    needs: build
+    runs-on: ubuntu-latest
+    container: node:20.11.0
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.3
+
+      - name: Install dependencies
+        run: |
+          pnpm config set store-dir .pnpm-store
+          pnpm install
+
+      - name: Generate documentation
+        run: npx typedoc --out docs src
