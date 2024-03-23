@@ -12,6 +12,7 @@
     "format:check": "prettier --check '**/*.{js,jsx,ts,tsx,vue,css,md}' '!public/**/*'"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.29.9",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "lucide-react": "^0.335.0",
