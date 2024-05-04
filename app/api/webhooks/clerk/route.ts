@@ -8,6 +8,7 @@ import { Webhook } from 'svix';
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions';
 
 export async function POST(req: Request) {
+  // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
@@ -61,7 +62,7 @@ export async function POST(req: Request) {
     const { id, email_addresses, image_url, first_name, last_name, username } =
       evt.data;
 
-    const user: CreateUserParams = {
+    const user = {
       clerkId: id,
       email: email_addresses[0].email_address,
       username: username!,
@@ -88,7 +89,7 @@ export async function POST(req: Request) {
   if (eventType === 'user.updated') {
     const { id, image_url, first_name, last_name, username } = evt.data;
 
-    const user: UpdateUserParams = {
+    const user = {
       firstName: first_name,
       lastName: last_name,
       username: username!,
