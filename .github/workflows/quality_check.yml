@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: ['main', 'dev']
+  pull_request:
+    branches: ['main', 'dev']
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    container: node:20.11.0
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.3
+
+      - name: Install dependencies
+        run: |
+          pnpm config set store-dir .pnpm-store
+          pnpm install
+
+      - name: Check code formatting
+        run: pnpm prettier:check
+
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    container: node:20.11.0
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.3
+
+      - name: Install dependencies
+        run: |
+          pnpm config set store-dir .pnpm-store
+          pnpm install
+
+      - name: Build project
+        run: pnpm build
