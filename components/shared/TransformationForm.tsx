@@ -52,6 +52,9 @@ const TransformationForm = ({
   const [image, setImage] = useState(data);
   const [newTransformation, setNewTransformation] =
     useState<Transformations | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isTransforming, setIsTransforming] = useState(false);
+  const [transformationConfig, setTransformationConfig] = useState(config);
 
   const initialValues =
     data && action === 'Update'
@@ -175,6 +178,10 @@ const TransformationForm = ({
             )}
           </div>
         )}
+
+        <Button className="submit-button capitalize" type="submit" disabled>
+          Submit
+        </Button>
       </form>
     </Form>
   );
